@@ -5,8 +5,8 @@
 
 <form class="row g-3 align-items-center h-100 mx-auto " method="post">
     <h1 class="text-center display-2">Personal Information</h1>
+    {{ formset.management_form }}
     {% csrf_token %}
-
     <div class="col-12">
         {{ form.title| as_crispy_field }}
     </div>

@@ -5,9 +5,12 @@
 {% csrf_token %}
 
 <form class="row g-3 align-items-center h-100 mx-auto " method="post">
-    <h1 class="text-center display-2">Personal Information</h1>
+    <h1 class="text-center display-2">Education</h1>
+    {{ formset.management_form }}
     {% csrf_token %}
-
+    
+    {% for form in formset %}
+        {{ form.id | as_crispy_field }}
     <div class="col-6">
         {{ form.title| as_crispy_field }}
     </div>
@@ -20,9 +23,11 @@
     <div class="col-3">
         {{ form.country | as_crispy_field }}
     </div>
+    {% endfor %}
     <div>
         <button type="submit" class="btn btn-primary btn-lg class text-right">Next</button>
     </div>
+    
 </form>
 
 {% endblock %}
