@@ -2,33 +2,84 @@
 <!--page content -->
 {% load crispy_forms_tags %}
 {% block content %}
-{% csrf_token %}
 
-<form class="enctype="multipart/form-data""class="row g-3 align-items-center h-100 mx-auto " method="post">
+
+<form enctype="multipart/form-data" class="row g-3 align-items-center h-100 mx-auto " method="post">
     <h1 class="text-center display-2">Custom Add Section</h1>
+    {{ formset.management_form }}
     {% csrf_token %}
+
+    {% for form in formset %}
+    {{ form.id | as_crispy_field }}
 
     <div class="col-6">
         {{ form.title| as_crispy_field }}
-    </div>
-    <div class="col-6">
-        {{ form.image | as_crispy_field }}
+        {% for error in field.errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
     </div>
     <div class="col-6">
         {{ form.url | as_crispy_field }}
     </div>
-    <div class="col-3">
+    <div class="col-6">
         {{ form.start_date | as_crispy_field }}
     </div>
-    <div class="col-3">
+    <div class="col-6">
         {{ form.end_date | as_crispy_field }}
     </div>
-     <div class="col-3">
+    <div class="col-12">
         {{ form.description | as_crispy_field }}
     </div>
+    <div class="col-6">
+        {{ form.image | as_crispy_field }}
+    </div>
+    <hr>
+    {% endfor %}
+
+    <div id="form_set" class="row g-3 align-items-center h-100 mx-auto ">
+    </div>
+
+    <input type="button" class="btn btn-primary btn-lg class text-right" value="Add More" id="add_more">
+    <div id="empty_form" style="display:none">
+
+        <div class="col-6">
+            {{ formset.empty_form.title| as_crispy_field }}
+        </div>
+        <div class="col-6">
+            {{ formset.empty_form.url | as_crispy_field }}
+        </div>
+        <div class="col-6">
+            {{ formset.empty_form.start_date | as_crispy_field }}
+        </div>
+        <div class="col-6">
+            {{ formset.empty_form.end_date | as_crispy_field }}
+        </div>
+        <div class="col-12">
+            {{ formset.empty_form.description | as_crispy_field }}
+        </div>
+        <div class="col-6">
+            {{ formset.empty_form.image | as_crispy_field }}
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary btn-lg class text-right">Save</button>
+        </div>
+    </div>
+    <script>
+        $('#add_more').click(function () {
+            var form_idx = $('#id_customsection_set-TOTAL_FORMS').val();
+            $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+            $('#id_customsection_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+        })
+    </script>
     <div>
-        <button type="submit" class="btn btn-primary btn-lg class text-right">Next</button>
+        <button type="submit" class="btn btn-primary btn-lg class text-right">Save</button>
     </div>
 </form>
-
 {% endblock %}

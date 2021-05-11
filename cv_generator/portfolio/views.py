@@ -1,11 +1,12 @@
 from django.db.models.base import Model
+from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.contrib import messages
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormView
-from django.forms import inlineformset_factory
+from django.forms import fields, inlineformset_factory
 from django.contrib.auth.models import User
 from .models import (
     Profile,
@@ -46,28 +47,42 @@ def personal_detail_page(request):
 
 
 def project_form_page(request):
-    project = Project.objects.filter(user=request.user).first()
+    ProjectEditFormset = inlineformset_factory(
+        User,
+        Project,
+        fields=(
+            "id",
+            "title",
+            "start_date",
+            "end_date",
+            "description",
+            "image",
+            "url",
+        ),
+    )
 
     if request.method == "POST":
-        form = ProjectForm(request.POST, request.FILES, instance=project)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.user = request.user
-            post.save()
-    else:
-        form = ProjectForm(instance=project)
+        formset = ProjectEditFormset(
+            request.POST, request.FILES, instance=request.user
+        )
+        if formset.is_valid():
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.user = request.user
+                instance.save
 
-    return render(request, "portfolio/projects.html", {"form": form})
+    else:
+        formset = ProjectEditFormset(instance=request.user)
+
+    return render(request, "portfolio/projects.html", {"formset": formset})
 
 
 def education_form_page(request):
-    # EducationEditFormset = modelformset_factory(
-    #     Education, form=EducationForm, extra=2
-    # )
     EducationEditFormset = inlineformset_factory(
         User,
         Education,
         fields=("id", "title", "educational_institute", "city", "country"),
+        extra=0,
     )
     if request.method == "POST":
         formset = EducationEditFormset(request.POST, instance=request.user)
@@ -77,44 +92,35 @@ def education_form_page(request):
                 instance.user = request.user
                 instance.save()
         else:
-            print("frm is invalid")
             print(formset.errors)
+
     else:
         formset = EducationEditFormset(instance=request.user)
 
     context = {"formset": formset}
 
-    # if formset.is_valid():
-    #     instances = formset.save(commit=False)
-    #     for instance in instances:
-    #         instance.user = request.user
-    #         instance.save()
-    # context = {
-    #     "formset": formset,
-    # }
-
     return render(request, "portfolio/education.html", context)
 
-    education = Education.objects.filter(user=request.user).first()
-    if request.method == "POST":
-        form = EducationForm(request.POST, instance=education)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.user = request.user
-            post.save()
-    else:
-        form = EducationForm(instance=education)
+    # education = Education.objects.filter(user=request.user).first()
+    # if request.method == "POST":
+    #     form = EducationForm(request.POST, instance=education)
+    #     if form.is_valid():
+    #         post = form.save(commit=False)
+    #         post.user = request.user
+    #         post.save()
+    # else:
+    #     form = EducationForm(instance=education)
 
-    return render(request, "portfolio/education.html", {"form": form})
+    # return render(request, "portfolio/education.html", {"form": form})
 
 
 def experience_form_page(request):
     ExperienceFormset = modelformset_factory(
-        Profile, form=ExperienceForm, extra=2
+        User, form=ExperienceForm, fields=("id",)
     )
     experience = Experience.objects.filter(user=request.user)
     if request.method == "POST":
-        form = ExperienceForm(request.POST, instance=experience)
+        formset = ExperienceForm(request.POST, instance=experience)
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
@@ -126,31 +132,46 @@ def experience_form_page(request):
 
 
 def skill_form_page(request):
-    skill = Skill.objects.filter(user=request.user).first()
-
+    SkillEditFormset = inlineformset_factory(
+        User, Skill, fields=("id", "title", "description", "add_skills")
+    )
     if request.method == "POST":
-        form = SkillForm(request.POST, instance=skill)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.user = request.user
-            post.save()
+        formset = SkillEditFormset(request.POST, instance=request.user)
+        if formset.is_valid():
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.user = request.user
+                instance.save()
     else:
-        form = SkillForm(instance=skill)
-    return render(request, "portfolio/skills.html", {"form": form})
+        formset = SkillEditFormset(instance=request.user)
+    return render(request, "portfolio/skills.html", {"formset": formset})
 
 
 def add_section_page(request):
-    custom_section = CustomSection.objects.filter(user=request.user).first()
+    CustomEditFormset = inlineformset_factory(
+        User,
+        CustomSection,
+        fields=(
+            "title",
+            "image",
+            "url",
+            "start_date",
+            "end_date",
+            "description",
+        ),
+    )
 
     if request.method == "POST":
-        form = CustomSectionForm(request.POST, instance=custom_section)
-        post = form.save(commit=False)
-        post.user = request.user
-        post.save()
+        formset = CustomEditFormset(request.POST, instance=request.user)
+        if formset.is_valid():
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.user = request.user
+                instance.save
     else:
-        form = CustomSection(instance=custom_section)
+        formset = CustomEditFormset(instance=request.user)
 
-    return render(request, "portfolio/add_section.html")
+    return render(request, "portfolio/add_section.html", {"formset": formset})
 
 
 def profile_update(request):

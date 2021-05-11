@@ -85,7 +85,7 @@ class Experience(models.Model):
 class CustomSection(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    image = models.ImageField()
+    image = models.ImageField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)

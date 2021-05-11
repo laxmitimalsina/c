@@ -4,9 +4,12 @@
 {% block content %}
 
 <form enctype="multipart/form-data" class="row g-3 align-items-center h-100 mx-auto " method="post">
+<h1 class="text-center display-2">Projects</h1>
+    {{ formset.management_form }}
     {% csrf_token %}
-    <h1 class="text-center display-2">Projects</h1>
-    <div class="col-md-6 mb-0 ">
+    {% for form in formset%}
+    {{ form.id | as_crispy_field }}
+        <div class="col-md-6 mb-0 ">
         {{ form.title| as_crispy_field}}
     </div>
     <div class="col-md-6 mb-0 ">
@@ -28,7 +31,8 @@
 
     <div class="mx-auto id=" btn">
         {{ form.check_me_out}}
-        <button type="submit" class="btn btn-primary btn-lg class text-right">Next</button>
+        <button type="submit" class="btn btn-primary btn-lg class text-right">save</button>
     </div>
+    {% endfor %}
 </form>
 {% endblock %}
