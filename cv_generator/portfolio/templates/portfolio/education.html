@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+<!--page content -->
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<form class="row g-3 align-items-center h-100 mx-auto " method="post">
+    <h1 class="text-center display-2">Education</h1>
+    {{ formset.management_form }}
+    {% csrf_token %}
+
+    {% for form in formset%}
+    {{ form.id | as_crispy_field }}
+
+    <div class="col-6">
+        {{ form.title| as_crispy_field }}
+    </div>
+    <div class="col-6">
+        {{ form.educational_institute | as_crispy_field }}
+    </div>
+    <div class="col-6">
+        {{ form.city | as_crispy_field }}
+    </div>
+    <div class="col-3">
+        {{ form.country | as_crispy_field }}
+    </div>
+    <hr>
+    <hr>
+
+
+    {% endfor %}
+    <div>
+        <button class="btn btn-primary btn-lg class text-right" type="submit">Next</button>
+    </div>
+
+    <div id="form_set" class="row g-3 align-items-center h-100 mx-auto ">
+    </div>
+
+    <input type="button" class="btn btn-primary btn-lg class text-right" value="Add More" id="add_more">
+    <div id="empty_form" style="display:none">
+
+
+        <div class="col-6">
+            {{ formset.empty_form.title| as_crispy_field }}
+        </div>
+        <div class="col-6">
+            {{ formset.empty_form.educational_institute | as_crispy_field }}
+        </div>
+        <div class="col-6">
+            {{ formset.empty_form.city | as_crispy_field }}
+        </div>
+        <div class="col-3">
+            {{ formset.empty_form.country | as_crispy_field }}
+        </div>
+    </div>
+
+
+    <hr>
+
+
+    </div>
+
+    <script>
+        $('#add_more').click(function () {
+            var form_idx = $('#id_education_set-TOTAL_FORMS').val();
+
+            $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+            $('#id_education_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+        })
+    </script>
+
+</form>
+
+{% endblock %}

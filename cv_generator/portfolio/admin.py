@@ -6,6 +6,8 @@ from .models import (
     Project,
     Profile,
     Skill,
+    CustomSection,
+    Experience,
 )
 from ckeditor.widgets import CKEditorWidget
 
@@ -13,7 +15,7 @@ from ckeditor.widgets import CKEditorWidget
 class EducationAdmin(admin.ModelAdmin):
     list_display = [
         "title",
-        "institute",
+        "educational_institute",
     ]
     search_fields = ["title"]
     list_per_page = 30
@@ -25,10 +27,10 @@ admin.site.register(Education, EducationAdmin)
 
 class SkillAdmin(admin.ModelAdmin):
     list_display = [
-        "name",
+        "title",
         "user",
     ]
-    search_fields = ["name"]
+    search_fields = ["title"]
     list_per_page = 30
     formfield_overrides = {models.TextField: {"widget": CKEditorWidget}}
 
@@ -60,6 +62,32 @@ class LanguageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Language, LanguageAdmin)
+
+
+class ExperienceAdmin(admin.ModelAdmin):
+    list_display = [
+        "title",
+        "user",
+    ]
+    search_fields = ["title"]
+    list_per_page = 30
+    formfield_overrides = {models.TextField: {"widget": CKEditorWidget}}
+
+
+admin.site.register(Experience, ExperienceAdmin)
+
+
+class CustomSectionAdmin(admin.ModelAdmin):
+    list_display = [
+        "title",
+        "description",
+    ]
+    search_fields = ["title"]
+    list_per_page = 30
+    formfield_overrides = {models.TextField: {"widget": CKEditorWidget}}
+
+
+admin.site.register(CustomSection, CustomSectionAdmin)
 
 
 class ProfileAdmin(admin.ModelAdmin):
