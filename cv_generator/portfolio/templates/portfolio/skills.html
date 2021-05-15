@@ -8,7 +8,20 @@
     <h1 class="text-center display-2">Skills</h1>
     {{ formset.management_form }}
     {% for form in formset%}
+
+    {% for error in field.errors %}
+    <div class="alert alert-danger">
+        <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+    <div class="alert alert-danger">
+        <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
     {{ form.id | as_crispy_field }}
+
+
     <div class="col-md-6 mb-0 ">
         {{ form.title| as_crispy_field}}
     </div>
@@ -19,10 +32,37 @@
     <div class="col-md-12 mb-0 ">
         {{ form.add_skills| as_crispy_field}}
     </div>
-    <div class="mx-auto id=" btn">
-
-        <button type="submit" class="btn btn-primary btn-lg class text-right">save</button>
-    </div>
+    <hr>
     {% endfor %}
+
+
+    <div id="form_set" class="row g-3 align-items-center h-100 mx-auto ">
+    </div>
+
+    <div>
+        <input type="button" class="btn btn-primary btn-space btn-lg pull-left" value="Add More" id="add_more" />
+    </div>
+    <div id="empty_form" style="display:none">
+        <div class="col-md-6 mb-0 ">
+            {{ formset.empty_form.title| as_crispy_field}}
+        </div>
+
+        <div class="col-md-6 mb-0 ">
+            {{ formset.empty_form.description| as_crispy_field}}
+        </div>
+        <div class="col-md-12 mb-0 ">
+            {{ formset.empty_form.add_skills| as_crispy_field}}
+        </div>
+    </div>
+    <script>
+        $('#add_more').click(function () {
+            var form_idx = $('#id_skill_set-TOTAL_FORMS').val();
+            $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+            $('#id_skill_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+        })
+    </script>
+    <div>
+        <button type="submit" class="btn btn-primary btn-lg class text-right pull-right pb-2">Save</button>
+    </div>
 </form>
 {% endblock %}

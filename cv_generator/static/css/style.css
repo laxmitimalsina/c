@@ -4,10 +4,7 @@
     --input-padding-y: .75rem;
 }
 
-body {
-    background: #007bff;
-    background: linear-gradient(to right, #0062E6, #33AEFF);
-}
+
 
 .card-signin {
     border: 0;
@@ -25,8 +22,9 @@ body {
 .card-signin .card-img-left {
     width: 45%;
     /* Link to your background image using in the property below! */
-    background: scroll center url('https://source.unsplash.com/WEQbe2jBg40/414x512');
+    background: scroll center url('https://images.unsplash.com/photo-1618376512051-bc838473a6d3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3150&q=80');
     background-size: cover;
+    
 }
 
 .card-signin .card-body {
@@ -157,4 +155,34 @@ body {
 /* personal information button */
 #btn {
     margin: 3px !important;
+}
+
+/* main navbar */
+#navbarResponsive a:hover{
+    color:red
+}
+
+
+/* Side navbar */
+.icon {width:40px;
+    
+}
+#side_navbar{
+    background-image:url('https://images.unsplash.com/photo-1618376512051-bc838473a6d3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3150&q=80');
+    ;
+    opacity: 0.8;
+ }
+ #side_navbar {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    display: block;
+    transition: 0.3s;
+    
+  }
+  #side_navbar span:hover{
+    color: gray;
+}
+#text{
+    color: white;
 }

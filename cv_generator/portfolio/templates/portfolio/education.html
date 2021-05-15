@@ -10,6 +10,17 @@
     {% csrf_token %}
 
     {% for form in formset%}
+
+    {% for error in field.errors %}
+    <div class="alert alert-danger">
+        <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+    <div class="alert alert-danger">
+        <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
     {{ form.id | as_crispy_field }}
 
     <div class="col-6">
@@ -29,14 +40,14 @@
 
 
     {% endfor %}
-    <div>
-        <button class="btn btn-primary btn-lg class text-right" type="submit">Next</button>
-    </div>
 
     <div id="form_set" class="row g-3 align-items-center h-100 mx-auto ">
     </div>
 
-    <input type="button" class="btn btn-primary btn-lg class text-right" value="Add More" id="add_more">
+    <div>
+        <input type="button" class="btn btn-primary btn-space btn-lg pull-left" value="Add More" id="add_more">
+    </div>
+
     <div id="empty_form" style="display:none">
 
 
@@ -52,11 +63,6 @@
         <div class="col-3">
             {{ formset.empty_form.country | as_crispy_field }}
         </div>
-    </div>
-
-
-    <hr>
-
 
     </div>
 
@@ -68,6 +74,9 @@
             $('#id_education_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
         })
     </script>
+    <div>
+        <button class="btn btn-primary btn-lg class text-right" type="submit">Next</button>
+    </div>
 
 </form>
 

@@ -9,7 +9,7 @@ class Profile(models.Model):
     photo = models.ImageField(blank=True, null=True)
     # personal information
     date_of_birth = models.DateField(null=True, blank=True)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     # contact informationpr
     email = models.EmailField()
     phone_number = PhoneNumberField(null=True, blank=True)
@@ -37,7 +37,7 @@ class Language(models.Model):
 
 class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, unique=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)

@@ -3,13 +3,23 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<form enctype="multipart/form-data" class="row g-3 align-items-center h-100 mx-auto " method="post">
-<h1 class="text-center display-2">Projects</h1>
+<form enctype="multipart/form-data" class="row g-3 align-items-center h-100 mx-auto " method="post"> {% csrf_token %}
+    <h1 class="text-center display-2">Projects</h1>
     {{ formset.management_form }}
-    {% csrf_token %}
     {% for form in formset%}
+
+    {% for error in field.errors %}
+    <div class="alert alert-danger">
+        <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+    <div class="alert alert-danger">
+        <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
     {{ form.id | as_crispy_field }}
-        <div class="col-md-6 mb-0 ">
+    <div class="col-md-6 mb-0 ">
         {{ form.title| as_crispy_field}}
     </div>
     <div class="col-md-6 mb-0 ">
@@ -29,10 +39,45 @@
         {{ form.description| as_crispy_field}}
     </div>
 
-    <div class="mx-auto id=" btn">
-        {{ form.check_me_out}}
-        <button type="submit" class="btn btn-primary btn-lg class text-right">save</button>
-    </div>
+    <hr style="border-top: 1px solid blue; background: transparent;">
+
     {% endfor %}
+    <div id="form_set" class="row g-3 align-items-center h-100 mx-auto ">
+    </div>
+    <div>
+        <input type="button" class="btn btn-primary btn-space btn-lg pull-left" value="Add More" id="add_more">
+    </div>
+    <div id="empty_form" style="display:none">
+
+        <div class="col-md-6 mb-0 ">
+            {{ formset.empty_form.title| as_crispy_field}}
+        </div>
+        <div class="col-md-6 mb-0 ">
+            {{ formset.empty_form.start_date| as_crispy_field}}
+        </div>
+        <div class="col-md-6 mb-0 ">
+            {{ formset.empty_form.end_date| as_crispy_field}}
+        </div>
+        <div class="col-md-6 mb-0 ">
+            {{ formset.empty_form.url| as_crispy_field}}
+        </div>
+        <div class="col-md-6 mb-0 ">
+            {{ formset.empty_form.image| as_crispy_field}}
+        </div>
+        <div class="col-md-12 mb-0 ">
+            {{ formset.empty_form.description| as_crispy_field}}
+        </div>
+    </div>
+    <script>
+        $('#add_more').click(function () {
+            var form_idx = $('#id_project_set-TOTAL_FORM').val();
+            $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+            $('#id_project_set-TOTAL_FORM').val(parseInt(form_idx) + 1);
+        })
+    </script>
+    <div>
+        <button type="submit" class="btn btn-primary btn-lg class text-right pull-right"
+            style="margin-bottom: 20px">Save</button>
+    </div>
 </form>
 {% endblock %}

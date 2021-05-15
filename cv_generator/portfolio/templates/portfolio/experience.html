@@ -4,12 +4,12 @@
 {% block content %}
 
 <form class="row g-3 align-items-center h-100 mx-auto " method="post">
-    <h1 class="text-center display-2">Personal Information</h1>
+    <h1 class="text-center display-2">Experience</h1>
     {{ formset.management_form }}
     {% csrf_token %}
     {% for form in formset%}
     {{ form.id | as_crispy_field }}
-       <div class="col-12">
+    <div class="col-12">
         {{ form.title| as_crispy_field }}
     </div>
     <div class="col-6">
@@ -21,9 +21,42 @@
     <div class="col-12">
         {{ form.description| as_crispy_field }}
     </div>
-    <div>
-        <button type="submit" class="btn btn-primary btn-lg class text-right">Next</button>
+    
+
+    {% endfor %}
+    <div id="form_set" class="row g-3 align-items-center h-100 mx-auto ">
     </div>
+    <div>
+        <input type="button" class="btn btn-primary btn-space btn-lg pull-left" value="Add More" id="add_more">
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary btn-lg class text-right pull-right">Next</button>
+    </div>
+    
+    
+    <div id="empty_form" style="display:none">
+
+        <div class="col-12">
+            {{ formset.empty_form.title| as_crispy_field }}
+        </div>
+        <div class="col-6">
+            {{ formset.empty_form.start_date| as_crispy_field }}
+        </div>
+        <div class="col-6">
+            {{ formset.empty_form.end_date| as_crispy_field }}
+        </div>
+        <div class="col-12">
+            {{ formset.empty_form.description| as_crispy_field }}
+        </div>
+    </div>
+
+    <script>
+        $('#add_more').click(function () {
+            var form_idx = $('#id_experience_set-TOTAL_FORMS').val();
+            $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+            $('#id_experience_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+        })
+    </script>
 </form>
 
 {% endblock %}
