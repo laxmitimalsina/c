@@ -1,4 +1,4 @@
-/* form css */
+/* login form css */
 :root {
     --input-padding-x: 1.5rem;
     --input-padding-y: .75rem;
@@ -158,9 +158,8 @@
 }
 
 /* main navbar */
-#navbarResponsive a:hover{
-    color:red
-}
+
+
 
 
 /* Side navbar */
@@ -168,21 +167,48 @@
     
 }
 #side_navbar{
-    background-image:url('https://images.unsplash.com/photo-1618376512051-bc838473a6d3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3150&q=80');
-    ;
-    opacity: 0.8;
+    /* background-image:url('https://images.unsplash.com/photo-1618376512051-bc838473a6d3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3150&q=80');
+    ; */
+    background-color: rgb(96, 160, 185);
+    text-decoration: none;
+
+    /* opacity: 0.8; */
  }
  #side_navbar {
-    padding: 8px 8px 8px 32px;
+    padding: 12px 12px 12px 32px;
     text-decoration: none;
-    font-size: 25px;
     display: block;
-    transition: 0.3s;
+    
+   
     
   }
   #side_navbar span:hover{
-    color: gray;
+    color: black;
+    text-decoration: none;
+    margin-bottom: 0;
+    
 }
 #text{
     color: white;
+    text-decoration: none;
+    
+}
+#side_navbar .current{
+    display: block;
+    position: relative;
+    color: #000;
+    padding:  inherit 16px;
+    text-decoration: none;
+    border-radius: 25px;
+    width: 240px;
+    border-bottom: none !important;
+  }
+
+#side_navbar .current{
+background-color:gray;
+border-radius: 10px;
+font-weight: bold;
+border-bottom: none !important;
+
+
 }
