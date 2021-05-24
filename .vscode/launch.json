@@ -8,8 +8,8 @@
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
-            "cwd": "${workspaceFolder}\\cv_generator",
-            "program": "${workspaceFolder}\\cv_generator\\manage.py",
+            "cwd": "${workspaceFolder}/cv_generator",
+            "program": "${workspaceFolder}/cv_generator/manage.py",
             "args": [
                 "runserver"
             ],

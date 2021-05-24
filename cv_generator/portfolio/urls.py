@@ -7,6 +7,7 @@ from .views import (
     experience_form_page,
     skill_form_page,
     add_section_page,
+    home_page,
 )
 
 app_name = "portfolio"
@@ -18,4 +19,6 @@ urlpatterns = [
     path("experience-info", experience_form_page, name="experience"),
     path("skill-info", skill_form_page, name="skill"),
     path("custom-edit-info", add_section_page, name="custom_info"),
+    # routes of static pages (home_page)
+    path(" ", home_page, name="home_page"),
 ]
