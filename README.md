@@ -1,1 +1,1 @@
-This is a cv generator project
+CV generator
