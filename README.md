@@ -1,1 +1,1 @@
-CV generator
+CV GENERATOR
